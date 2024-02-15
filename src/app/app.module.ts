@@ -2,7 +2,7 @@ import { DiagnosticosNewUnroutedComponent } from './components/diagnosticos/diag
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -74,6 +74,7 @@ import { LoginViewUnroutedComponent } from './components/shared/login/login-view
 import { VisitaspruebasService } from './service/visitaspruebas.service';
 import { VisitasBypacienteViewRoutedComponent } from './components/visitas/visitas-bypaciente-view-routed/visitas-bypaciente-view-routed.component';
 import { VisitasBypacienteViewUnroutedComponent } from './components/visitas/visitas-bypaciente-view-unrouted/visitas-bypaciente-view-unrouted.component';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -140,7 +141,8 @@ import { VisitasBypacienteViewUnroutedComponent } from './components/visitas/vis
     LoginViewRoutedComponent,
     LoginViewUnroutedComponent,
     VisitasBypacienteViewRoutedComponent,
-    VisitasBypacienteViewUnroutedComponent
+    VisitasBypacienteViewUnroutedComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -153,7 +155,7 @@ import { VisitasBypacienteViewUnroutedComponent } from './components/visitas/vis
     NgbModule,
    // Ng2SearchPipeModule
   ],
-  providers: [VisitaspruebasService],
+  providers: [VisitaspruebasService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
